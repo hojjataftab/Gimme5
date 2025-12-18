@@ -3,81 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gimme5 - Premium Crypto Raffle</title>
+    <title>Gimme5 - Premium Raffle</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        body { background-color: #0f0f0f; color: white; font-family: 'Segoe UI', Tahoma, sans-serif; text-align: center; margin: 0; padding: 20px; direction: ltr; }
-        .card { background: linear-gradient(145deg, #1a1a1a, #222); border-radius: 20px; padding: 20px; border: 1px solid #ffd700; margin-bottom: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        body { background-color: #0f0f0f; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .card { background: linear-gradient(145deg, #1a1a1a, #222); border-radius: 20px; padding: 20px; border: 1px solid #ffd700; margin-bottom: 15px; }
         .winner-card { border-color: #00ffcc; background: rgba(0, 255, 204, 0.05); }
-        h1 { color: #ffd700; margin: 10px 0; font-size: 2.2rem; letter-spacing: -1px; }
-        .btn-gold { background: linear-gradient(45deg, #ffd700, #ffa500); color: black; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: bold; font-size: 1.2rem; cursor: pointer; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3); }
-        .stats-badge { background: rgba(255, 215, 0, 0.1); border: 1px solid #ffd700; color: #ffd700; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; display: inline-block; margin-bottom: 10px; }
+        h1 { color: #ffd700; margin: 10px 0; font-size: 2.2rem; }
+        .btn-gold { background: linear-gradient(45deg, #ffd700, #ffa500); color: black; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; }
         .ref-box { background: rgba(0, 136, 204, 0.1); border: 1px dashed #0088cc; padding: 15px; border-radius: 15px; margin-top: 20px; }
-        .wallet-btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; font-size: 1.1rem; cursor: pointer; margin: 10px 0; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .support-btn { background: transparent; color: #ff4444; border: 1px solid #ff4444; padding: 10px; width: 100%; border-radius: 10px; font-size: 0.9rem; margin-top: 15px; cursor: pointer; }
-        .help-section { text-align: left; background: #111; padding: 15px; border-radius: 15px; margin-top: 20px; border: 1px solid #333; }
-        .help-item { margin-bottom: 10px; font-size: 0.85rem; color: #ccc; display: flex; gap: 10px; }
+        .ref-status { background: #0088cc; color: white; padding: 5px 12px; border-radius: 10px; font-size: 0.8rem; display: inline-block; margin-bottom: 10px; font-weight: bold; }
         .hidden { display: none; }
-        .loader { border: 3px solid #333; border-top: 3px solid #ffd700; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; margin: 0 auto; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .wallet-btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; margin-top: 10px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <div id="main-page">
-        <div class="stats-badge">
-            🟢 Live: <span id="participant-count">90</span> Active Participants
-        </div>
+        <div style="font-size: 0.7rem; color: #ffd700; margin-bottom: 10px;">🟢 Live: <span id="participant-count">...</span> Participants joined</div>
 
         <div class="card winner-card">
-            <h3 style="color: #00ffcc; margin: 0; font-size: 0.8rem; letter-spacing: 2px;">LAST WINNER 🏆</h3>
+            <h3 style="color: #00ffcc; margin: 0; font-size: 0.8rem;">LAST WINNER 🏆</h3>
             <p style="font-size: 1.4rem; font-weight: bold; margin: 10px 0;">@Aftab_Ht</p>
-            <p style="font-size: 0.7rem; color: #888;">Prize: 500 USDT (TRC20)</p>
         </div>
 
         <div class="card">
             <h1>Gimme5</h1>
-            <p style="color: #aaa;">Global Transparent Raffle</p>
-            <p style="font-size: 1.1rem;">Ticket Price: <b style="color: #ffd700;">5 USDT</b></p>
+            <p>Entry Ticket: <b style="color: #ffd700;">5 USDT</b></p>
             <button class="btn-gold" onclick="goToPayment()">GET TICKET NOW</button>
         </div>
 
         <div class="ref-box">
-            <h4 style="margin:0; color:#0088cc;">Invite & Earn 🎁</h4>
-            <p style="font-size: 0.75rem; color: #ccc; margin-top:10px;">Earn $1 per paid invite. Get 5 invites for a <b>FREE TICKET!</b></p>
-            <div id="my-ref-link" style="font-size: 0.7rem; color: #ffd700; margin-top:10px; word-break: break-all;">Generating link...</div>
-            <button style="margin-top:10px; background:#0088cc; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:0.8rem; cursor:pointer;" onclick="copyRef()">Copy Referral Link</button>
-        </div>
-
-        <div class="help-section">
-            <h4 style="margin-top:0; color:#ffd700;">Instructions:</h4>
-            <div class="help-item"><span>1. Pay 5 USDT (TRC20) via Wallet.</span></div>
-            <div class="help-item"><span>2. Wait for automatic on-chain verification.</span></div>
-            <div class="help-item"><span>3. You're added to the draw instantly.</span></div>
+            <div id="ref-status-label" class="ref-status">Loading stats...</div>
+            <h4 style="margin:0;">Invite & Earn 🎁</h4>
+            <p style="font-size: 0.7rem; color: #ccc; margin-top:5px;">Reach 5 paid invites for a <b>FREE TICKET!</b></p>
+            <div id="my-ref-link" style="font-size: 0.7rem; color: #ffd700; margin-top:10px; word-break: break-all;">Generating...</div>
+            <button style="margin-top:10px; background:#444; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:0.8rem;" onclick="copyRef()">Copy Referral Link</button>
         </div>
     </div>
 
     <div id="payment-page" class="hidden">
         <div class="card">
             <h3>Secure Payment</h3>
-            <button class="wallet-btn" onclick="openWallet()">💎 Open Crypto Wallet</button>
+            <button class="wallet-btn" onclick="openWallet()">💎 Pay via Wallet</button>
             <div style="margin: 20px 0; border-top: 1px solid #333; position: relative;">
-                <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #1a1a1a; padding: 0 10px; font-size: 0.7rem; color: #666;">OR MANUAL</span>
+                <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #1a1a1a; padding: 0 10px; font-size: 0.7rem; color: #666;">OR MANUAL TRC20</span>
             </div>
             <div style="font-size: 9px; color: #ffd700; background:#000; padding:10px; border-radius:8px; word-break: break-all;">TUFnwzMYr9fu5EA2sco4f4HLXSVSwZHUYX</div>
-            <div id="status-area" style="margin-top: 20px;">
-                <div class="loader"></div>
-                <p style="color: #00ffcc; font-size: 0.8rem;">Verifying Transaction on Blockchain...</p>
-            </div>
-            <button class="support-btn" onclick="contactSupport()">💬 Support: @gimme5</button>
-        </div>
-    </div>
-
-    <div id="success-page" class="hidden">
-        <div class="card" style="border-color: #00ff00;">
-            <h2 style="color: #00ff00;">✅ Verified</h2>
-            <p>You are officially in the raffle!</p>
-            <button class="btn-gold" onclick="location.reload()">BACK TO HOME</button>
+            <p style="color: #00ffcc; font-size: 0.8rem; margin-top:15px;">Scanning Blockchain...</p>
+            <button style="background:none; border:1px solid #ff4444; color:#ff4444; padding:8px; border-radius:10px; width:100%; margin-top:15px;" onclick="location.reload()">Back</button>
         </div>
     </div>
 
@@ -87,21 +61,36 @@
         tele.expand();
 
         const myWallet = "TUFnwzMYr9fu5EA2sco4f4HLXSVSwZHUYX";
-        // لینک گوگل اسکریپت خود را اینجا قرار دهید
-        const scriptURL = "https://script.google.com/macros/s/AKfycby6_XuzWE-6O-rMFES5Yq7AZrKEkn7uRsqzBo2j0nHc50APe-67_CS1rIGWo9z7KPC0YA/exec"; 
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyC6x8mzhcY7dsNi1RMP3xrBsTjLDXzKEmc8ihKqF2pIwT5Bop_2359wYtufA4xoP0Zbw/exec";
 
         const user = tele.initDataUnsafe.user;
         const userId = user ? user.id : "unknown";
         const username = user ? (user.username || user.id) : "User";
 
-        function setupApp() {
-            // ایجاد لینک معرف اختصاصی برای gimme5bot
+        async function setupApp() {
             document.getElementById('my-ref-link').innerText = `https://t.me/gimme5bot?start=${userId}`;
             
-            // شمارشگر صعودی منطقی
-            const now = new Date();
-            const hours = now.getHours();
-            document.getElementById('participant-count').innerText = Math.floor(90 + (hours * 1.2));
+            try {
+                const response = await fetch(`${scriptURL}?uId=${userId}`);
+                const result = await response.json();
+                
+                // نمایش تعداد شرکت‌کنندگان: ۹۰ + تعداد ردیف‌های واقعی شیت
+                const realCount = result.totalParticipants || 0;
+                document.getElementById('participant-count').innerText = 90 + realCount;
+
+                // نمایش وضعیت زیرمجموعه کاربر
+                const count = result.refCount || 0;
+                if (count >= 5) {
+                    document.getElementById('ref-status-label').innerHTML = `✅ ${count}/5 Completed! Contact support for your free ticket.`;
+                    document.getElementById('ref-status-label').style.background = "#00ff00";
+                    document.getElementById('ref-status-label').style.color = "black";
+                } else {
+                    document.getElementById('ref-status-label').innerText = `📊 Progress: ${count}/5 Friends joined`;
+                }
+            } catch (e) {
+                document.getElementById('participant-count').innerText = "90";
+                document.getElementById('ref-status-label').innerText = "Invite 5 friends to win!";
+            }
         }
         setupApp();
 
@@ -115,10 +104,6 @@
             tele.openLink(`https://link.trustwallet.com/send?asset=c60_tTR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t&address=${myWallet}&amount=5`);
         }
 
-        function contactSupport() {
-            tele.openTelegramLink("https://t.me/gimme5"); 
-        }
-
         function copyRef() {
             const link = document.getElementById('my-ref-link').innerText;
             const el = document.createElement('textarea');
@@ -127,7 +112,7 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            tele.showAlert("Link copied! Share it to get free tickets.");
+            tele.showAlert("Link copied! Share it with friends.");
         }
 
         async function startMonitoring() {
@@ -137,10 +122,10 @@
                     const data = await res.json();
                     if (data.data && data.data.length > 0) {
                         const tx = data.data[0];
-                        const txTime = tx.block_timestamp;
-                        if (tx.value / 1000000 >= 5 && (Date.now() - txTime) < 600000) {
+                        if (tx.value / 1000000 >= 5 && (Date.now() - tx.block_timestamp) < 600000) {
                             await reportToSheet(tx.value / 1000000);
-                            showSuccess();
+                            tele.showAlert("Payment Verified! Good luck.");
+                            location.reload();
                         }
                     }
                 } catch (e) { }
@@ -156,12 +141,6 @@
                     body: JSON.stringify({ userId: username, uId: userId, amount: amount, refBy: refBy }) 
                 });
             } catch (e) { }
-        }
-
-        function showSuccess() {
-            document.getElementById('payment-page').classList.add('hidden');
-            document.getElementById('success-page').classList.remove('hidden');
-            tele.HapticFeedback.notificationOccurred('success');
         }
     </script>
 </body>
