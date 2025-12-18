@@ -1,162 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Gimme5 - Premium Crypto Raffle</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gimme5 - 100 USDT Raffle</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body { background-color: #0f0f0f; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .card { background: linear-gradient(145deg, #1a1a1a, #222); border-radius: 20px; padding: 20px; border: 1px solid #ffd700; margin-bottom: 15px; position: relative; overflow: hidden; }
+        .winner-card { border-color: #00ffcc; background: rgba(0, 255, 204, 0.05); }
+        .prize-tag { background: #ffd700; color: black; position: absolute; top: 10px; right: -30px; transform: rotate(45deg); padding: 5px 40px; font-size: 0.6rem; font-weight: bold; }
+        h1 { color: #ffd700; margin: 10px 0; font-size: 2.2rem; text-transform: uppercase; }
+        .grand-prize-title { font-size: 1.2rem; color: #ffd700; letter-spacing: 2px; margin-bottom: 5px; font-weight: bold; }
+        .prize-amount { font-size: 3.2rem; font-weight: bold; color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); margin: 5px 0; }
+        
+        .timer-container { display: flex; justify-content: center; gap: 10px; margin: 15px 0; }
+        .timer-unit { background: rgba(255, 215, 0, 0.1); border: 1px solid #ffd700; border-radius: 8px; padding: 5px; min-width: 45px; }
+        .timer-val { display: block; font-size: 1.2rem; font-weight: bold; color: #ffd700; }
+        .timer-label { font-size: 0.5rem; color: #aaa; text-transform: uppercase; }
 
-<style>
-body {
-    background-color:#0f0f0f;
-    color:white;
-    font-family:'Segoe UI',sans-serif;
-    text-align:center;
-    margin:0;
-    padding:20px;
-}
-.card {
-    background:linear-gradient(145deg,#1a1a1a,#222);
-    border-radius:20px;
-    padding:20px;
-    border:1px solid #ffd700;
-    margin-bottom:15px;
-    position:relative;
-    overflow:hidden;
-    box-shadow:0 8px 20px rgba(0,0,0,0.6);
-}
-.winner-card {
-    border-color:#00ffcc;
-    background:rgba(0,255,204,0.05);
-}
-.prize-tag {
-    background:#ffd700;
-    color:black;
-    position:absolute;
-    top:10px;
-    right:-30px;
-    transform:rotate(45deg);
-    padding:5px 40px;
-    font-size:.6rem;
-    font-weight:bold;
-}
-h1 {
-    color:#ffd700;
-    margin:10px 0;
-    font-size:2.2rem;
-}
-.prize-amount {
-    font-size:3rem;
-    font-weight:bold;
-    color:#ffd700;
-}
-.btn-gold {
-    background:linear-gradient(45deg,#ffd700,#ffa500);
-    color:black;
-    border:none;
-    padding:18px;
-    width:100%;
-    border-radius:15px;
-    font-weight:bold;
-    cursor:pointer;
-    font-size:1.2rem;
-}
-.hidden { display:none; }
-
-.countdown-box {
-    margin-top:15px;
-    padding:12px;
-    border-radius:15px;
-    background:rgba(0,255,204,0.08);
-    border:1px dashed #00ffcc;
-}
-#countdown {
-    font-size:1.4rem;
-    font-weight:bold;
-    color:#00ffcc;
-    margin-top:5px;
-}
-</style>
+        .btn-join { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-invite { background: linear-gradient(45deg, #ffd700, #ffa500); color: black; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; font-size: 1.1rem; }
+        
+        .ref-box { background: rgba(0, 136, 204, 0.1); border: 1px dashed #0088cc; padding: 15px; border-radius: 15px; margin-top: 20px; }
+        .ref-status { background: #0088cc; color: white; padding: 8px 15px; border-radius: 10px; font-size: 0.9rem; display: inline-block; margin-bottom: 10px; font-weight: bold; width: 80%; }
+        
+        .task-list { text-align: left; margin: 15px 0; font-size: 0.85rem; }
+        .task-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; color: #ccc; }
+        .check-icon { color: #00ffcc; font-weight: bold; }
+    </style>
 </head>
-
 <body>
 
-<div id="main-page">
+    <div id="main-page">
+        <div style="font-size: 0.75rem; color: #ffd700; margin-bottom: 10px;">🟢 Live: <span id="participant-count">...</span> Participants</div>
 
-<div style="font-size:.8rem;color:#ffd700;margin-bottom:12px;">
-🟢 Live: <span id="participant-count">...</span> Players Active
-</div>
+        <div class="card winner-card">
+            <h3 style="color: #00ffcc; margin: 0; font-size: 0.8rem; letter-spacing: 1px;">LAST WINNER 🏆</h3>
+            <p style="font-size: 1.4rem; font-weight: bold; margin: 10px 0;">@Aftab_Ht</p>
+        </div>
 
-<div class="card winner-card">
-<h3 style="color:#00ffcc;font-size:.8rem;">LAST WINNER 🏆</h3>
-<p style="font-size:1.5rem;font-weight:bold;">@Aftab_Ht</p>
-</div>
+        <div class="card">
+            <div class="prize-tag">FREE ENTRY</div>
+            <div class="grand-prize-title">جایزه بزرگ</div>
+            <h1>Gimme5</h1>
+            <div class="prize-amount">100 <span style="font-size: 1rem;">USDT</span></div>
+            
+            <div class="timer-container" id="raffle-timer">
+                <div class="timer-unit"><span class="timer-val" id="days">00</span><span class="timer-label">Days</span></div>
+                <div class="timer-unit"><span class="timer-val" id="hours">00</span><span class="timer-label">Hours</span></div>
+                <div class="timer-unit"><span class="timer-val" id="mins">00</span><span class="timer-label">Mins</span></div>
+                <div class="timer-unit"><span class="timer-val" id="secs">00</span><span class="timer-label">Secs</span></div>
+            </div>
 
-<div class="card">
-<div class="prize-tag">BIG PRIZE</div>
+            <div class="task-list">
+                <div class="task-item"><span class="check-icon">✓</span> Join @gemmi5bot Channel</div>
+                <div class="task-item"><span class="check-icon">✓</span> Invite 5 friends to enter</div>
+            </div>
 
-<h1>Gimme5</h1>
-<p style="color:#aaa;">Win the Grand Prize of</p>
-<div class="prize-amount">500 <span style="font-size:1.2rem;">USDT</span></div>
+            <button class="btn-join" onclick="openChannel()">
+                <span>📢</span> Join Our Channel
+            </button>
+            <button class="btn-invite" onclick="copyRef()">INVITE 5 FRIENDS</button>
+        </div>
 
-<div class="countdown-box">
-⏳ Next Draw In
-<div id="countdown">Loading...</div>
-</div>
+        <div class="ref-box">
+            <div id="ref-status-label" class="ref-status">Syncing Status...</div>
+            <p style="font-size: 0.75rem; color: #ccc; margin-top:10px;">Share your link to win:</p>
+            <div id="my-ref-link" style="font-size: 0.7rem; color: #ffd700; margin-top:5px; word-break: break-all; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">Generating...</div>
+        </div>
+    </div>
 
-<p style="margin-top:15px;">Entry: <b>5 USDT (TRC20)</b></p>
-<button class="btn-gold" onclick="goToPayment()">GET TICKET NOW</button>
-</div>
+    <script>
+        const tele = window.Telegram.WebApp;
+        tele.ready();
+        tele.expand();
 
-</div>
+        // تنظیم تاریخ قرعه کشی
+        const raffleDate = new Date("December 31, 2025 23:59:59").getTime();
+        const scriptURL = "لینک_اسکریپت_شما"; 
 
-<script>
-/* Telegram */
-const tele = window.Telegram.WebApp;
-tele.ready();
-tele.expand();
+        const user = tele.initDataUnsafe.user;
+        const userId = user ? user.id : "unknown";
 
-/* Countdown Logic */
-function getNextThursday() {
-    const now = new Date();
-    const day = now.getDay(); // 0=Sun ... 4=Thu
-    let diff = 4 - day;
-    if (diff <= 0) diff += 7;
-    const d = new Date(now);
-    d.setDate(now.getDate() + diff);
-    d.setHours(23,59,59,999);
-    return d;
-}
-const targetDate = getNextThursday();
+        function updateTimer() {
+            const now = new Date().getTime();
+            const distance = raffleDate - now;
+            if (distance < 0) {
+                document.getElementById("raffle-timer").innerHTML = "<b>RAFFLE STARTING!</b>";
+                return;
+            }
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+            document.getElementById("days").innerText = d.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+            document.getElementById("mins").innerText = m.toString().padStart(2, '0');
+            document.getElementById("secs").innerText = s.toString().padStart(2, '0');
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
 
-function updateCountdown() {
-    const now = Date.now();
-    const dist = targetDate - now;
+        async function setupApp() {
+            document.getElementById('my-ref-link').innerText = `https://t.me/gimme5bot?start=${userId}`;
+            
+            try {
+                const response = await fetch(`${scriptURL}?uId=${userId}`);
+                const result = await response.json();
+                document.getElementById('participant-count').innerText = 150 + (result.totalParticipants || 0);
+                const count = result.refCount || 0;
+                
+                const label = document.getElementById('ref-status-label');
+                if(count >= 5) {
+                    label.innerText = "✅ ENTRY COMPLETED!";
+                    label.style.background = "#00ffcc";
+                    label.style.color = "black";
+                } else {
+                    label.innerText = `📊 Progress: ${count}/5 Friends`;
+                }
+            } catch (e) { 
+                document.getElementById('participant-count').innerText = "150";
+            }
+        }
+        setupApp();
 
-    if (dist <= 0) {
-        document.getElementById("countdown").innerText = "🎉 Drawing Time!";
-        return;
-    }
+        function openChannel() {
+            tele.openTelegramLink("https://t.me/gemmi5bot");
+        }
 
-    const d = Math.floor(dist / (1000*60*60*24));
-    const h = Math.floor((dist % (1000*60*60*24)) / (1000*60*60));
-    const m = Math.floor((dist % (1000*60*60)) / (1000*60));
-    const s = Math.floor((dist % (1000*60)) / 1000);
-
-    document.getElementById("countdown").innerText =
-        `${d}d ${h}h ${m}m ${s}s`;
-}
-
-setInterval(updateCountdown,1000);
-updateCountdown();
-
-/* Dummy data */
-document.getElementById("participant-count").innerText = 127;
-
-function goToPayment() {
-    tele.showAlert("Redirecting to payment...");
-}
-</script>
-
+        function copyRef() {
+            const link = document.getElementById('my-ref-link').innerText;
+            const el = document.createElement('textarea');
+            el.value = link;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            tele.showAlert("Invite link copied! Invite 5 friends to win 100 USDT.");
+        }
+    </script>
 </body>
 </html>
