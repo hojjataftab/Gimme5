@@ -1,62 +1,39 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gimme5 Global Raffle</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body {
-            background-color: #121212;
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
+async function monitorBlockchain() {
+            const interval = setInterval(async () => {
+                try {
+                    const res = await fetch(https://api.trongrid.io/v1/accounts/${myWallet}/transactions/trc20?limit=1&token_address=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t);
+                    const data = await res.json();
+                    
+                    if (data.data && data.data.length > 0) {
+                        const tx = data.data[0];
+                        const amount = tx.value / 1000000;
+                        const time = tx.block_timestamp;
+                        
+                        if (amount >= 5 && (Date.now() - time) < 600000) {
+                            clearInterval(interval);
+                            await sendToSheet(amount);
+                            showSuccess();
+                        }
+                    }
+                } catch (e) { console.log("Check error"); }
+            }, 10000);
         }
-        .card {
-            background: linear-gradient(145deg, #1e1e1e, #252525);
-            padding: 40px;
-            border-radius: 25px;
-            border: 1px solid #ffd700;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        h1 { color: #ffd700; font-size: 2.5rem; margin-bottom: 5px; }
-        p { color: #ccc; font-size: 1.1rem; }
-        .btn {
-            background: #ffd700;
-            color: black;
-            border: none;
-            padding: 15px 40px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin-top: 20px;
-        }
-        .btn:hover { transform: scale(1.05); background: #ffea00; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <h1>Gimme5 🏆</h1>
-        <p>Win Big with just $5</p>
-        <p style="font-size: 0.9rem;">Fair • Transparent • Global</p>
-        <button class="btn" onclick="startApp()">Enter Raffle</button>
-    </div>
 
-    <script>
-        const tele = window.Telegram.WebApp;
-        tele.ready();
-        tele.expand();
+        async function sendToSheet(amt) {
+            const payload = {
+                userId: tele.initDataUnsafe.user ? tele.initDataUnsafe.user.id : "Global_User",
+                wallet: myWallet,
+                amount: amt
+            };
+            try {
+                await fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            } catch (e) { }
+        }
 
-        function startApp() {
-            tele.showConfirm("Do you want to join the raffle for $5?");
+        function showSuccess() {
+            document.getElementById('payment-page').classList.add('hidden');
+            document.getElementById('success-page').classList.remove('hidden');
+            tele.HapticFeedback.notificationOccurred('success');
         }
     </script>
 </body>
