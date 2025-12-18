@@ -7,51 +7,56 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body { background-color: #0f0f0f; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 20px; }
-        .card { background: linear-gradient(145deg, #1a1a1a, #222); border-radius: 20px; padding: 20px; border: 1px solid #ffd700; margin-bottom: 15px; }
-        .winner-card { border-color: #00ffcc; background: rgba(0, 255, 204, 0.05); }
+        .card { background: linear-gradient(145deg, #1a1a1a, #222); border-radius: 20px; padding: 20px; border: 1px solid #ffd700; margin-bottom: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         h1 { color: #ffd700; margin: 10px 0; font-size: 2.2rem; }
-        .btn-gold { background: linear-gradient(45deg, #ffd700, #ffa500); color: black; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; }
+        .btn-gold { background: linear-gradient(45deg, #ffd700, #ffa500); color: black; border: none; padding: 18px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn-gold:active { transform: scale(0.98); }
         .ref-box { background: rgba(0, 136, 204, 0.1); border: 1px dashed #0088cc; padding: 15px; border-radius: 15px; margin-top: 20px; }
         .ref-status { background: #0088cc; color: white; padding: 5px 12px; border-radius: 10px; font-size: 0.8rem; display: inline-block; margin-bottom: 10px; font-weight: bold; }
         .hidden { display: none; }
-        .wallet-btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; margin-top: 10px; cursor: pointer; }
+        .wallet-btn { background: #0088cc; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .loader { border: 3px solid #333; border-top: 3px solid #00ffcc; border-radius: 50%; width: 24px; height: 24px; animation: spin 1s linear infinite; margin: 10px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
 
     <div id="main-page">
-        <div style="font-size: 0.7rem; color: #ffd700; margin-bottom: 10px;">🟢 Live: <span id="participant-count">...</span> Participants joined</div>
+        <div style="font-size: 0.75rem; color: #ffd700; margin-bottom: 10px;">🟢 Live: <span id="participant-count">...</span> Players Joined</div>
 
-        <div class="card winner-card">
-            <h3 style="color: #00ffcc; margin: 0; font-size: 0.8rem;">LAST WINNER 🏆</h3>
-            <p style="font-size: 1.4rem; font-weight: bold; margin: 10px 0;">@Aftab_Ht</p>
+        <div class="card" style="border-color: #00ffcc; background: rgba(0,255,204,0.05);">
+            <h3 style="color: #00ffcc; margin: 0; font-size: 0.8rem; letter-spacing: 1px;">LAST WINNER 🏆</h3>
+            <p style="font-size: 1.4rem; font-weight: bold; margin: 10px 0;">@Hojjat_Aftab</p>
         </div>
 
         <div class="card">
             <h1>Gimme5</h1>
-            <p>Entry Ticket: <b style="color: #ffd700;">5 USDT</b></p>
+            <p style="color: #aaa;">Entry: <b style="color: #ffd700;">5 USDT (TRC20)</b></p>
             <button class="btn-gold" onclick="goToPayment()">GET TICKET NOW</button>
         </div>
 
         <div class="ref-box">
-            <div id="ref-status-label" class="ref-status">Loading stats...</div>
-            <h4 style="margin:0;">Invite & Earn 🎁</h4>
-            <p style="font-size: 0.7rem; color: #ccc; margin-top:5px;">Reach 5 paid invites for a <b>FREE TICKET!</b></p>
+            <div id="ref-status-label" class="ref-status">Syncing...</div>
+            <h4 style="margin:0;">Referral Rewards 🎁</h4>
+            <p style="font-size: 0.7rem; color: #ccc; margin-top:5px;">Bring 5 friends to get a <b>FREE TICKET!</b></p>
             <div id="my-ref-link" style="font-size: 0.7rem; color: #ffd700; margin-top:10px; word-break: break-all;">Generating...</div>
-            <button style="margin-top:10px; background:#444; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:0.8rem;" onclick="copyRef()">Copy Referral Link</button>
+            <button style="margin-top:10px; background:#444; color:white; border:none; padding:8px 15px; border-radius:8px; font-size:0.8rem;" onclick="copyRef()">Copy Invite Link</button>
         </div>
     </div>
 
     <div id="payment-page" class="hidden">
         <div class="card">
             <h3>Secure Payment</h3>
-            <button class="wallet-btn" onclick="openWallet()">💎 Pay via Wallet</button>
-            <div style="margin: 20px 0; border-top: 1px solid #333; position: relative;">
-                <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #1a1a1a; padding: 0 10px; font-size: 0.7rem; color: #666;">OR MANUAL TRC20</span>
+            <button class="wallet-btn" onclick="openWallet()">💎 Open Crypto Wallet</button>
+            <p style="font-size: 0.7rem; color: #888; margin: 15px 0;">Or send exactly 5 USDT (TRC20) to:</p>
+            <div style="font-size: 9px; color: #ffd700; background:#000; padding:12px; border-radius:8px; word-break: break-all; border: 1px solid #333;">TUFnwzMYr9fu5EA2sco4f4HLXSVSwZHUYX</div>
+            
+            <div id="monitoring-status" style="margin-top: 20px;">
+                <div class="loader"></div>
+                <p style="color: #00ffcc; font-size: 0.85rem;">Waiting for Blockchain Confirmation...</p>
+                <p style="font-size: 0.65rem; color: #666;">(Scanning 20 latest transactions...)</p>
             </div>
-            <div style="font-size: 9px; color: #ffd700; background:#000; padding:10px; border-radius:8px; word-break: break-all;">TUFnwzMYr9fu5EA2sco4f4HLXSVSwZHUYX</div>
-            <p style="color: #00ffcc; font-size: 0.8rem; margin-top:15px;">Scanning Blockchain...</p>
-            <button style="background:none; border:1px solid #ff4444; color:#ff4444; padding:8px; border-radius:10px; width:100%; margin-top:15px;" onclick="location.reload()">Back</button>
+            <button style="background:none; border:1px solid #444; color:#888; padding:10px; border-radius:10px; width:100%; margin-top:15px; font-size: 0.8rem;" onclick="location.reload()">Cancel / Back</button>
         </div>
     </div>
 
@@ -61,7 +66,7 @@
         tele.expand();
 
         const myWallet = "TUFnwzMYr9fu5EA2sco4f4HLXSVSwZHUYX";
-        const scriptURL = "https://script.google.com/macros/s/AKfycbyC6x8mzhcY7dsNi1RMP3xrBsTjLDXzKEmc8ihKqF2pIwT5Bop_2359wYtufA4xoP0Zbw/exec";
+        const scriptURL = "https://script.google.com/macros/s/AKfycbxsjGhe5IAnaGlh9aQYEZOUWnoR3djzY2_Pu7mZ5_45rr5nEdp4A2IhnRbj5XrKU4ISSg/exec"; 
 
         const user = tele.initDataUnsafe.user;
         const userId = user ? user.id : "unknown";
@@ -69,27 +74,15 @@
 
         async function setupApp() {
             document.getElementById('my-ref-link').innerText = `https://t.me/gimme5bot?start=${userId}`;
-            
             try {
                 const response = await fetch(`${scriptURL}?uId=${userId}`);
                 const result = await response.json();
-                
-                // نمایش تعداد شرکت‌کنندگان: ۹۰ + تعداد ردیف‌های واقعی شیت
-                const realCount = result.totalParticipants || 0;
-                document.getElementById('participant-count').innerText = 90 + realCount;
-
-                // نمایش وضعیت زیرمجموعه کاربر
+                document.getElementById('participant-count').innerText = 90 + (result.totalParticipants || 0);
                 const count = result.refCount || 0;
-                if (count >= 5) {
-                    document.getElementById('ref-status-label').innerHTML = `✅ ${count}/5 Completed! Contact support for your free ticket.`;
-                    document.getElementById('ref-status-label').style.background = "#00ff00";
-                    document.getElementById('ref-status-label').style.color = "black";
-                } else {
-                    document.getElementById('ref-status-label').innerText = `📊 Progress: ${count}/5 Friends joined`;
-                }
-            } catch (e) {
+                document.getElementById('ref-status-label').innerText = count >= 5 ? `✅ ${count}/5 Completed!` : `📊 Progress: ${count}/5 Friends`;
+            } catch (e) { 
                 document.getElementById('participant-count').innerText = "90";
-                document.getElementById('ref-status-label').innerText = "Invite 5 friends to win!";
+                document.getElementById('ref-status-label').innerText = "Invite 5 friends for 1 Free Ticket";
             }
         }
         setupApp();
@@ -105,42 +98,56 @@
         }
 
         function copyRef() {
-            const link = document.getElementById('my-ref-link').innerText;
             const el = document.createElement('textarea');
-            el.value = link;
-            document.body.appendChild(el);
-            el.select();
-            document.execCommand('copy');
-            document.body.removeChild(el);
-            tele.showAlert("Link copied! Share it with friends.");
+            el.value = document.getElementById('my-ref-link').innerText;
+            document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el);
+            tele.showAlert("Invite link copied!");
         }
 
+        let isReporting = false;
         async function startMonitoring() {
             setInterval(async () => {
+                if (isReporting) return;
                 try {
-                    const res = await fetch(`https://api.trongrid.io/v1/accounts/${myWallet}/transactions/trc20?limit=1&token_address=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t`);
+                    // دریافت ۲۰ تراکنش آخر برای جلوگیری از تداخل واریزهای همزمان
+                    const res = await fetch(`https://api.trongrid.io/v1/accounts/${myWallet}/transactions/trc20?limit=20&token_address=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t`);
                     const data = await res.json();
-                    if (data.data && data.data.length > 0) {
-                        const tx = data.data[0];
-                        if (tx.value / 1000000 >= 5 && (Date.now() - tx.block_timestamp) < 600000) {
-                            await reportToSheet(tx.value / 1000000);
-                            tele.showAlert("Payment Verified! Good luck.");
-                            location.reload();
+                    
+                    if (data.data) {
+                        const now = Date.now();
+                        for (let tx of data.data) {
+                            const txAmount = tx.value / 1000000;
+                            const txTime = tx.block_timestamp;
+                            const txId = tx.transaction_id;
+
+                            // شرط: مبلغ حداقل ۵ تتر و زمان در ۳۰ دقیقه اخیر
+                            if (txAmount >= 5 && (now - txTime) < 1800000) {
+                                isReporting = true;
+                                await reportToSheet(txAmount, txId);
+                                break;
+                            }
                         }
                     }
                 } catch (e) { }
             }, 8000);
         }
 
-        async function reportToSheet(amount) {
+        async function reportToSheet(amount, txId) {
             const refBy = tele.initDataUnsafe.start_param || "";
             try {
+                // ارسال اطلاعات به گوگل شیت (شامل آیدی تراکنش برای جلوگیری از ثبت تکراری)
                 await fetch(scriptURL, { 
                     method: 'POST', 
-                    mode: 'no-cors', 
-                    body: JSON.stringify({ userId: username, uId: userId, amount: amount, refBy: refBy }) 
+                    mode: 'no-cors',
+                    body: JSON.stringify({ userId: username, uId: userId, amount: amount, refBy: refBy, txId: txId }) 
                 });
-            } catch (e) { }
+                
+                tele.showConfirm("Payment Verified! You are now in the raffle.", () => { 
+                    location.reload(); 
+                });
+            } catch (e) { 
+                isReporting = false; 
+            }
         }
     </script>
 </body>
