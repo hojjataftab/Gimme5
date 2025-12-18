@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gimme5 - 100 USDT Raffle</title>
+    <title>Gimme5 - Premium Crypto Raffle</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body { background-color: #0f0f0f; color: white; font-family: 'Segoe UI', sans-serif; text-align: center; margin: 0; padding: 20px; }
@@ -37,12 +37,12 @@
 
         <div class="card winner-card">
             <h3 style="color: #00ffcc; margin: 0; font-size: 0.8rem; letter-spacing: 1px;">LAST WINNER 🏆</h3>
-            <p style="font-size: 1.4rem; font-weight: bold; margin: 10px 0;">@mia_mos</p>
+            <p style="font-size: 1.4rem; font-weight: bold; margin: 10px 0;">@Aftab_Ht</p>
         </div>
 
         <div class="card">
             <div class="prize-tag">FREE ENTRY</div>
-            <div class="grand-prize-title">Big Reward</div>
+            <div class="grand-prize-title">GRAND PRIZE</div>
             <h1>Gimme5</h1>
             <div class="prize-amount">100 <span style="font-size: 1rem;">USDT</span></div>
             
@@ -59,14 +59,14 @@
             </div>
 
             <button class="btn-join" onclick="openChannel()">
-                <span>📢</span> Join Our Channel
+                <span>📢</span> JOIN OUR CHANNEL
             </button>
             <button class="btn-invite" onclick="copyRef()">INVITE 5 FRIENDS</button>
         </div>
 
         <div class="ref-box">
-            <div id="ref-status-label" class="ref-status">Syncing Status...</div>
-            <p style="font-size: 0.75rem; color: #ccc; margin-top:10px;">Share your link to win:</p>
+            <div id="ref-status-label" class="ref-status">Syncing Data...</div>
+            <p style="font-size: 0.75rem; color: #ccc; margin-top:10px;">Share link to earn entry:</p>
             <div id="my-ref-link" style="font-size: 0.7rem; color: #ffd700; margin-top:5px; word-break: break-all; background: rgba(0,0,0,0.3); padding: 10px; border-radius: 8px;">Generating...</div>
         </div>
     </div>
@@ -76,12 +76,14 @@
         tele.ready();
         tele.expand();
 
-        // تنظیم تاریخ قرعه کشی
         const raffleDate = new Date("December 31, 2025 23:59:59").getTime();
-        const scriptURL = "لینک_اسکریپت_شما"; 
+        
+        // Your Google Script URL is now integrated
+        const scriptURL = "https://script.google.com/macros/s/AKfycbypNCZyuE6IhlNsXvy6aMVFcXfUdMQWjZ9uZShPr0IfNfD14r5uzz672hMGp_hGA7eKBA/exec"; 
 
         const user = tele.initDataUnsafe.user;
-        const userId = user ? user.id : "unknown";
+        const userId = user ? user.id : "12345";
+        const username = user ? (user.username || user.first_name) : "Guest";
 
         function updateTimer() {
             const now = new Date().getTime();
@@ -108,19 +110,20 @@
             try {
                 const response = await fetch(`${scriptURL}?uId=${userId}`);
                 const result = await response.json();
-                document.getElementById('participant-count').innerText = 150 + (result.totalParticipants || 0);
-                const count = result.refCount || 0;
+                document.getElementById('participant-count').innerText = 100 + result.totalParticipants;
                 
+                const count = result.refCount;
                 const label = document.getElementById('ref-status-label');
+                
                 if(count >= 5) {
-                    label.innerText = "✅ ENTRY COMPLETED!";
+                    label.innerText = `✅ ENTRY SECURED (${count}/5)`;
                     label.style.background = "#00ffcc";
                     label.style.color = "black";
                 } else {
-                    label.innerText = `📊 Progress: ${count}/5 Friends`;
+                    label.innerText = `📊 Progress: ${count} of 5 Friends Joined`;
                 }
             } catch (e) { 
-                document.getElementById('participant-count').innerText = "150";
+                document.getElementById('ref-status-label').innerText = "Invite 5 friends to join";
             }
         }
         setupApp();
@@ -137,7 +140,7 @@
             el.select();
             document.execCommand('copy');
             document.body.removeChild(el);
-            tele.showAlert("Invite link copied! Invite 5 friends to win 100 USDT.");
+            tele.showAlert("Link copied! Share it with 5 friends to win 100 USDT.");
         }
     </script>
 </body>
